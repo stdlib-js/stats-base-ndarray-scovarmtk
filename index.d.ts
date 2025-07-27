@@ -1,4 +1,4 @@
-/**
+/*
 * @license Apache-2.0
 *
 * Copyright (c) 2025 The Stdlib Authors.
@@ -16,19 +16,11 @@
 * limitations under the License.
 */
 
-'use strict';
+// TypeScript Version: 4.1
 
-// MODULES //
+/// <reference types="https://cdn.jsdelivr.net/gh/stdlib-js/types@esm/index.d.ts"/>
 
-var numelDimension = require( '@stdlib/ndarray-base-numel-dimension' );
-var getStride = require( '@stdlib/ndarray-base-stride' );
-var getOffset = require( '@stdlib/ndarray-base-offset' );
-var getData = require( '@stdlib/ndarray-base-data-buffer' );
-var ndarraylike2scalar = require( '@stdlib/ndarray-base-ndarraylike2scalar' );
-var strided = require( '@stdlib/stats-strided-scovarmtk' ).ndarray;
-
-
-// MAIN //
+import { float32ndarray } from '@stdlib/types/ndarray';
 
 /**
 * Computes the covariance of two one-dimensional single-precision floating-point ndarrays provided known means and using a one-pass textbook algorithm.
@@ -43,8 +35,8 @@ var strided = require( '@stdlib/stats-strided-scovarmtk' ).ndarray;
 *     -   a zero-dimensional ndarray specifying the mean of the first one-dimensional ndarray.
 *     -   a zero-dimensional ndarray specifying the mean of the second one-dimensional ndarray.
 *
-* @param {ArrayLikeObject<Object>} arrays - array-like object containing input ndarrays
-* @returns {number} covariance
+* @param arrays - array-like object containing input ndarrays
+* @returns covariance
 *
 * @example
 * var Float32Array = require( '@stdlib/array-float32' );
@@ -61,31 +53,16 @@ var strided = require( '@stdlib/stats-strided-scovarmtk' ).ndarray;
 * var ybuf = new Float32Array( [ 2.0, -2.0, 1.0 ] );
 * var y = new ndarray( opts.dtype, ybuf, [ 3 ], [ 1 ], 0, 'row-major' );
 *
+* var correction = scalar2ndarray( 1.0, opts );
 * var meanx = scalar2ndarray( 1.0/3.0, opts );
 * var meany = scalar2ndarray( 1.0/3.0, opts );
-* var correction = scalar2ndarray( 1.0, opts );
 *
 * var v = scovarmtk( [ x, y, correction, meanx, meany ] );
 * // returns ~3.8333
 */
-function scovarmtk( arrays ) {
-	var correction;
-	var meanx;
-	var meany;
-	var x;
-	var y;
-
-	x = arrays[ 0 ];
-	y = arrays[ 1 ];
-
-	correction = ndarraylike2scalar( arrays[ 2 ] );
-	meanx = ndarraylike2scalar( arrays[ 3 ] );
-	meany = ndarraylike2scalar( arrays[ 4 ] );
-
-	return strided( numelDimension( x, 0 ), correction, meanx, getData( x ), getStride( x, 0 ), getOffset( x ), meany, getData( y ), getStride( y, 0 ), getOffset( y ) ); // eslint-disable-line max-len
-}
+declare function scovarmtk( arrays: [ float32ndarray, float32ndarray, float32ndarray, float32ndarray, float32ndarray ] ): number;
 
 
 // EXPORTS //
 
-module.exports = scovarmtk;
+export = scovarmtk;
